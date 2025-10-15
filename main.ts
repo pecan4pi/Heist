@@ -1,11 +1,4 @@
-function GetTilemap (num: number) {
-    if (num <= ArrayOfTilemaps.length) {
-        return ArrayOfTilemaps[num]
-    } else {
-        return tileUtil.createSmallMap(tilemap`level5`)
-    }
-}
-function generate (myLocation: tiles.Location, x: number, y: number) {
+function TestGenerateIgnore (myLocation: tiles.Location, x: number, y: number) {
     for (let index2 = 0; index2 <= x; index2++) {
         tiles.setTileAt(tiles.getTileLocation(index2 + myLocation.column, myLocation.row), assets.tile`transparency8`)
     }
@@ -18,6 +11,17 @@ function generate (myLocation: tiles.Location, x: number, y: number) {
     for (let index2 = 0; index2 <= y; index2++) {
         tiles.setTileAt(tiles.getTileLocation(x + myLocation.column, index2 + myLocation.row), assets.tile`transparency8`)
     }
+}
+function GetTilemap (num: number) {
+    if (num <= ArrayOfTilemaps.length) {
+        return ArrayOfTilemaps[num]
+    } else {
+        return tileUtil.createSmallMap(tilemap`level5`)
+    }
+}
+function Generate () {
+    let myLocation: tiles.Location = null
+    PrintTilemalAt(myLocation, 0)
 }
 function PrintTilemalAt (myLocation: tiles.Location, num: number) {
     for (let index = 0; index <= tileUtil.tilemapProperty(GetTilemap(num), tileUtil.TilemapProperty.Columns) - 1; index++) {
@@ -152,21 +156,7 @@ scene.setBackgroundImage(img`
     `)
 pause(0)
 tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level6`))
-ArrayOfTilemaps = [
-tileUtil.createSmallMap(tilemap`level4`),
-tileUtil.createSmallMap(tilemap`level2`),
-tileUtil.createSmallMap(tilemap`level3`),
-tileUtil.createSmallMap(tilemap`level8`),
-tileUtil.createSmallMap(tilemap`level9`),
-tileUtil.createSmallMap(tilemap`level10`),
-tileUtil.createSmallMap(tilemap`level11`),
-tileUtil.createSmallMap(tilemap`level12`),
-tileUtil.createSmallMap(tilemap`level13`),
-tileUtil.createSmallMap(tilemap`level14`),
-tileUtil.createSmallMap(tilemap`level15`),
-tileUtil.createSmallMap(tilemap`level16`),
-tileUtil.createSmallMap(tilemap`level17`)
-]
+ArrayOfTilemaps = [tileUtil.createSmallMap(tilemap`level17`)]
 let PlayerSprite = sprites.create(img`
     . . . . . . . . 
     . 2 2 2 2 2 2 . 
@@ -180,8 +170,4 @@ let PlayerSprite = sprites.create(img`
 controller.moveSprite(PlayerSprite)
 scene.cameraFollowSprite(PlayerSprite)
 let rng = Random.createRNG(randint(1, 9999))
-for (let index2 = 0; index2 <= 4; index2++) {
-    for (let index3 = 0; index3 <= 4; index3++) {
-        PrintTilemalAt(tiles.getTileLocation(index2 * 31, index3 * 31), rng.randomRange(12, ArrayOfTilemaps.length - 1))
-    }
-}
+Generate()
